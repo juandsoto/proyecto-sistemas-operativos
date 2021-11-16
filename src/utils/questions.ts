@@ -11,13 +11,13 @@ export const getInput = async (): Promise<Input> => {
         choices: [
           {
             value: 1,
-            name: '1. Generar al azar los datos necesarios para la simulacion',
+            name: '1. Generar al azar los datos necesarios para la simulacion'
           },
           {
             value: 2,
-            name: '2. Permitir que el usuario digite desde el teclado los datos necesarios para la simulación',
-          },
-        ],
+            name: '2. Permitir que el usuario digite desde el teclado los datos necesarios para la simulación'
+          }
+        ]
       },
       {
         type: 'input',
@@ -30,10 +30,25 @@ export const getInput = async (): Promise<Input> => {
           if (isNaN(parseInt(input))) return 'Debe ser un número';
 
           return true;
-        },
+        }
       },
+      {
+        type: 'list',
+        name: 'algoritmo',
+        message: 'Algoritmo a utilizar en la cola de menor prioridad',
+        choices: [
+          {
+            value: 'fcfs',
+            name: '1. FCFS'
+          },
+          {
+            value: 'sjn',
+            name: '2. SJN'
+          }
+        ]
+      }
     ])
-    .then((answers) => answers);
+    .then(answers => answers);
   return choice;
 };
 
@@ -51,7 +66,7 @@ export const getInfo = async (): Promise<Info> => {
           if (isNaN(parseInt(input))) return 'Debe ser un número';
 
           return true;
-        },
+        }
       },
       {
         type: 'input',
@@ -64,7 +79,7 @@ export const getInfo = async (): Promise<Info> => {
           if (isNaN(parseInt(input))) return 'Debe ser un número';
 
           return true;
-        },
+        }
       },
       {
         type: 'input',
@@ -77,7 +92,7 @@ export const getInfo = async (): Promise<Info> => {
           if (isNaN(parseInt(input))) return 'Debe ser un número';
 
           return true;
-        },
+        }
       },
       {
         type: 'input',
@@ -90,7 +105,7 @@ export const getInfo = async (): Promise<Info> => {
           if (isNaN(parseInt(input))) return 'Debe ser un número';
 
           return true;
-        },
+        }
       },
       {
         type: 'input',
@@ -103,8 +118,8 @@ export const getInfo = async (): Promise<Info> => {
           if (isNaN(parseInt(input))) return 'Debe ser un número';
 
           return true;
-        },
-      },
+        }
+      }
     ])
     .then(
       (answers): Info =>
@@ -116,7 +131,7 @@ export const getInfo = async (): Promise<Info> => {
               prioridad: parseInt(answers.prioridad),
               CPU1: parseInt(answers.CPU1),
               ES: parseInt(answers.ES),
-              CPU2: parseInt(answers.CPU2),
+              CPU2: parseInt(answers.CPU2)
             }
     );
   return info;

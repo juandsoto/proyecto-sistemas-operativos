@@ -1,11 +1,11 @@
 const RANDOM_FACTOR = 4;
-
 export class Proceso {
   private tiempoFinal: number;
   private tiempoEspera: number;
   private tiempoServicio: number;
   private indiceServicio: number;
   private finalizado: boolean = false;
+  private bloqueado: boolean = false;
 
   constructor(
     public nombre: string,
@@ -21,7 +21,10 @@ export class Proceso {
   }
 
   public setTiempoFinal(tiempoFinal: number): void {
-    this.tiempoFinal = tiempoFinal + 2;
+    this.tiempoFinal = tiempoFinal + 1;
+    this.tiempoServicio = this.tiempoFinal - this.llegada;
+    this.tiempoEspera = this.tiempoServicio - this.CPU1 - this.CPU2;
+    this.indiceServicio = Number(((this.CPU1 + this.CPU2) / this.tiempoServicio).toFixed(2));
   }
 
   public getTiempoEspera(): number {
@@ -94,5 +97,13 @@ export class Proceso {
 
   public setFinalizado(finalizado: boolean): void {
     this.finalizado = finalizado;
+  }
+
+  public isBloqueado(): boolean {
+    return this.bloqueado;
+  }
+
+  public setBloqueado(bloqueado: boolean): void {
+    this.bloqueado = bloqueado;
   }
 }

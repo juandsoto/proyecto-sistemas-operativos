@@ -3,7 +3,7 @@ import { Cola } from './cola';
 export interface algoritmo {
   promedioEspera: number;
   promedioServicio: number;
-  penalizacion: () => boolean;
+  penalizacion: (cola: Cola) => boolean;
   recompensa: () => boolean;
-  ejecutar: (cola: Cola, colaES: Cola, tiempo: number) => void;
+  ejecutar: (procesosCongelados: any, cola: Cola, tiempo: number, colaES?: Cola) => void;
 }

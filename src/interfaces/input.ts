@@ -1,6 +1,7 @@
 export interface Input {
   eleccion: number;
   numeroDeProcesos: number;
+  algoritmo: string;
 }
 
 export interface Info {
