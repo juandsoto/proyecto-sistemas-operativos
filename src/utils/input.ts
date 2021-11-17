@@ -1,5 +1,5 @@
 import * as inquirer from 'inquirer';
-import { Input, Info } from '../interfaces/input';
+import { Input, Info } from '../interfaces/interfaces';
 
 export const getInput = async (): Promise<Input> => {
   const choice: Input = await inquirer
@@ -44,6 +44,10 @@ export const getInput = async (): Promise<Input> => {
           {
             value: 'sjn',
             name: '2. SJN'
+          },
+          {
+            value: 'hrn',
+            name: '3. HRN'
           }
         ]
       }

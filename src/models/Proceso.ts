@@ -1,4 +1,7 @@
-const RANDOM_FACTOR = 4;
+const RANDOM_LLEGADA = 4;
+const RANDOM_PRIORIDAD = 3;
+const RANDOM_CPU = 4;
+const RANDOM_ES = 2;
 export class Proceso {
   private tiempoFinal: number;
   private tiempoEspera: number;
@@ -6,26 +9,17 @@ export class Proceso {
   private indiceServicio: number;
   private finalizado: boolean = false;
   private bloqueado: boolean = false;
+  private esperaCola2: number = -1;
+  private enEjecucion: boolean = false;
 
   constructor(
     public nombre: string,
-    private llegada: number = Math.floor(Math.random() * RANDOM_FACTOR),
-    private prioridad: number = Math.floor(Math.random() * RANDOM_FACTOR),
-    private CPU1: number = Math.floor(Math.random() * RANDOM_FACTOR) + 1,
-    private ES: number = Math.floor(Math.random() * RANDOM_FACTOR) + 1,
-    private CPU2: number = Math.floor(Math.random() * RANDOM_FACTOR) + 1
+    private llegada: number = Math.floor(Math.random() * RANDOM_LLEGADA),
+    private prioridad: number = Math.floor(Math.random() * RANDOM_PRIORIDAD),
+    private CPU1: number = Math.floor(Math.random() * RANDOM_CPU) + 1,
+    private ES: number = Math.floor(Math.random() * RANDOM_ES) + 1,
+    private CPU2: number = Math.floor(Math.random() * RANDOM_CPU) + 1
   ) {}
-
-  public getTiempoFinal(): number {
-    return this.tiempoFinal;
-  }
-
-  public setTiempoFinal(tiempoFinal: number): void {
-    this.tiempoFinal = tiempoFinal + 1;
-    this.tiempoServicio = this.tiempoFinal - this.llegada;
-    this.tiempoEspera = this.tiempoServicio - this.CPU1 - this.CPU2;
-    this.indiceServicio = Number(((this.CPU1 + this.CPU2) / this.tiempoServicio).toFixed(2));
-  }
 
   public getTiempoEspera(): number {
     return this.tiempoEspera;
@@ -55,16 +49,8 @@ export class Proceso {
     return this.llegada;
   }
 
-  public setLlegada(llegada: number): void {
-    this.llegada = llegada;
-  }
-
   public getPrioridad(): number {
     return this.prioridad;
-  }
-
-  public setPrioridad(prioridad: number): void {
-    this.prioridad = prioridad;
   }
 
   public getCPU1(): number {
@@ -105,5 +91,32 @@ export class Proceso {
 
   public setBloqueado(bloqueado: boolean): void {
     this.bloqueado = bloqueado;
+  }
+
+  public getEsperaCola2(): number {
+    return this.esperaCola2;
+  }
+
+  public setEsperaCola2(esperaCola2: number): void {
+    this.esperaCola2 = esperaCola2;
+  }
+
+  public isEnEjecucion(): boolean {
+    return this.enEjecucion;
+  }
+
+  public setEnEjecucion(enEjecucion: boolean): void {
+    this.enEjecucion = enEjecucion;
+  }
+
+  public getTiempoFinal(): number {
+    return this.tiempoFinal;
+  }
+
+  public setTiempoFinal(tiempoFinal: number): void {
+    this.tiempoFinal = tiempoFinal + 1;
+    this.tiempoServicio = this.tiempoFinal - this.llegada;
+    this.tiempoEspera = this.tiempoServicio - this.CPU1 - this.CPU2;
+    this.indiceServicio = Number(((this.CPU1 + this.CPU2) / this.tiempoServicio).toFixed(2));
   }
 }

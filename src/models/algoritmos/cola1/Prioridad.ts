@@ -1,24 +1,16 @@
 const colors = require('colors');
 
-import { algoritmo } from '../../../interfaces/algoritmo';
-import { Cola } from '../../../interfaces/cola';
+import { Algoritmo, Cola } from '../../../interfaces/interfaces';
 import { Proceso } from '../../Proceso';
-export class Prioridad implements algoritmo {
-  promedioEspera: number;
-  promedioServicio: number;
-
+export class Prioridad implements Algoritmo {
   constructor() {}
 
   penalizacion(cola: Cola): boolean {
     return cola[0].getCPU1() === 0 && cola[0].getES() !== 0;
   }
-  recompensa(): boolean {
-    return false;
-  }
+
   ejecutar(_: Proceso[], cola: Cola, __: number, colaES: Cola): void {
-    if (cola.length === 0) {
-      return;
-    }
+    if (cola.length === 0) return;
 
     const colaOrdenada = cola.sort((a, b) => a.getLlegada() - b.getLlegada()).sort((a, b) => b.getPrioridad() - a.getPrioridad());
 

@@ -1,22 +1,10 @@
 const colors = require('colors');
 
-import { algoritmo } from '../../../interfaces/algoritmo';
-import { Cola } from '../../../interfaces/cola';
+import { Algoritmo, Cola } from '../../../interfaces/interfaces';
 import { Proceso } from '../../Proceso';
 
-export class SJN implements algoritmo {
-  promedioEspera: number;
-  promedioServicio: number;
-
+export class SJN implements Algoritmo {
   constructor() {}
-
-  penalizacion(): boolean {
-    return false;
-  }
-
-  recompensa(): boolean {
-    return false;
-  }
 
   ejecutar(procesosCongelados, cola: Cola, tiempo: number): void {
     if (cola.length === 0) {
@@ -37,7 +25,6 @@ export class SJN implements algoritmo {
       colaOrdenada[0].setCPU1(proceso.CPU1);
       colaOrdenada[0].setES(proceso.ES);
       colaOrdenada[0].setCPU2(proceso.CPU2);
-
       colaOrdenada[0].setTiempoFinal(tiempo);
       colaOrdenada[0].setFinalizado(true);
       colaOrdenada.shift(); //Saca el proceso de la cola

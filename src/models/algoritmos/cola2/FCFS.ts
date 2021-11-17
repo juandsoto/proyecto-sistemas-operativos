@@ -1,27 +1,12 @@
 const colors = require('colors');
 
-import { algoritmo } from '../../../interfaces/algoritmo';
-import { Cola } from '../../../interfaces/cola';
+import { Algoritmo, Cola } from '../../../interfaces/interfaces';
 import { Proceso } from '../../Proceso';
-
-export class FCFS implements algoritmo {
-  promedioEspera: number;
-  promedioServicio: number;
-
+export class FCFS implements Algoritmo {
   constructor() {}
 
-  penalizacion(): boolean {
-    return false;
-  }
-
-  recompensa(): boolean {
-    return false;
-  }
-
   ejecutar(procesosCongelados, cola: Cola, tiempo: number): void {
-    if (cola.length === 0) {
-      return;
-    }
+    if (cola.length === 0) return;
 
     if (cola[0].isBloqueado()) return;
 
