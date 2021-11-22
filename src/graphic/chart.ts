@@ -30,6 +30,7 @@ export const dataset = (tiempo: number, cola1: Cola, colaES: Cola, cola2: Cola, 
   const procesosOrdenados = ordenar(procesos);
 
   data.push({
+    label: 'Ejecucion',
     data: procesosOrdenados.map(_ => 1),
     backgroundColor: procesosOrdenados.map(proceso => {
       if (tiempo < proceso.getLlegada() || proceso.isFinalizado()) {

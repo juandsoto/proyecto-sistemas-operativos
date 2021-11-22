@@ -62,16 +62,20 @@ async function main() {
           colaNoApropiativa = cola2.slice().sort((a, b) => a.getCPU2() - b.getCPU2());
           break;
         case 'HRN':
-          colaNoApropiativa = !cola2[0].isEnEjecucion()
-            ? cola2.slice().sort((a, b) => {
-                const aCongelado = procesosCongelados.find(pro => pro.nombre === a.nombre);
-                const bCongelado = procesosCongelados.find(pro => pro.nombre === b.nombre);
-                const aFormula = formula(a.getEsperaCola2(), aCongelado.CPU2);
-                const bFormula = formula(b.getEsperaCola2(), bCongelado.CPU2);
+          if (cola2.length) {
+            colaNoApropiativa = cola2.slice();
+          } else {
+            colaNoApropiativa = !cola2[0].isEnEjecucion()
+              ? cola2.slice().sort((a, b) => {
+                  const aCongelado = procesosCongelados.find(pro => pro.nombre === a.nombre);
+                  const bCongelado = procesosCongelados.find(pro => pro.nombre === b.nombre);
+                  const aFormula = formula(a.getEsperaCola2(), aCongelado.CPU2);
+                  const bFormula = formula(b.getEsperaCola2(), bCongelado.CPU2);
 
-                return aFormula - bFormula;
-              })
-            : cola2.slice();
+                  return aFormula - bFormula;
+                })
+              : cola2.slice();
+          }
           break;
       }
       if (!cola2.some(proceso => proceso.getCPU2() > 2)) {
