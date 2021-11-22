@@ -1,7 +1,7 @@
 const RANDOM_LLEGADA = 4;
 const RANDOM_PRIORIDAD = 3;
 const RANDOM_CPU = 4;
-const RANDOM_ES = 2;
+const RANDOM_ES = 3;
 export class Proceso {
   private tiempoFinal: number;
   private tiempoEspera: number;
@@ -9,6 +9,7 @@ export class Proceso {
   private indiceServicio: number;
   private finalizado: boolean = false;
   private bloqueado: boolean = false;
+  private esperaCola1: number = 0;
   private esperaCola2: number = -1;
   private enEjecucion: boolean = false;
 
@@ -118,5 +119,13 @@ export class Proceso {
     this.tiempoServicio = this.tiempoFinal - this.llegada;
     this.tiempoEspera = this.tiempoServicio - this.CPU1 - this.CPU2;
     this.indiceServicio = Number(((this.CPU1 + this.CPU2) / this.tiempoServicio).toFixed(2));
+  }
+
+  public getEsperaCola1(): number {
+    return this.esperaCola1;
+  }
+
+  public setEsperaCola1(esperaCola1: number): void {
+    this.esperaCola1 = esperaCola1;
   }
 }

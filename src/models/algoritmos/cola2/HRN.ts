@@ -6,11 +6,35 @@ import { Proceso } from '../../Proceso';
 export class HRN implements Algoritmo {
   constructor() {}
 
-  ejecutar(procesosCongelados, cola: Cola, tiempo: number): void {
+  //Se envian los procesos que tienen mas de ciertas unidades de rafaga de cpu2 a la cola de mayor prioridad
+  recompensa(cola: Cola): boolean {
+    return cola.some(proceso => proceso.getCPU2() > 2);
+  }
+
+  type() {
+    return 'HRN';
+  }
+
+  ejecutar(procesosCongelados, cola: Cola, tiempo: number, colaDeMayorPrioridad: Cola): void {
     if (cola.length === 0) {
       return;
     }
     if (cola[0].isBloqueado()) return;
+
+    if (this.recompensa(cola)) {
+      const filtro = cola.filter(proceso => proceso.getCPU2() > 2);
+      console.log(colors.bgRed(`${filtro.map(proceso => proceso.nombre)} enviado/s a la cola de mayor prioridad`));
+
+      filtro.forEach(proceso => {
+        colaDeMayorPrioridad.push(proceso);
+        cola.splice(
+          cola.findIndex(p => p.nombre === proceso.nombre),
+          1
+        );
+      });
+
+      return;
+    }
 
     let colaOrdenada: Proceso[] = cola;
 
@@ -29,7 +53,7 @@ export class HRN implements Algoritmo {
     colaOrdenada[0].setCPU2(colaOrdenada[0].getCPU2() - 1);
 
     // Redefenir tiempos de espera de los demas procesos
-    colaOrdenada.filter(proceso => proceso !== colaOrdenada[0]).forEach(proceso => proceso.setEsperaCola2(proceso.getEsperaCola2() + 1));
+    colaOrdenada.filter(proceso => proceso.nombre !== colaOrdenada[0].nombre).forEach(proceso => proceso.setEsperaCola2(proceso.getEsperaCola2() + 1));
 
     console.log(`cola2  --> ${colors.green(colaOrdenada.map(proceso => proceso.nombre))} --> ejecutando --> ${colors.green(colaOrdenada[0].nombre)}`);
 
@@ -39,6 +63,7 @@ export class HRN implements Algoritmo {
       colaOrdenada[0].setCPU1(proceso.CPU1);
       colaOrdenada[0].setES(proceso.ES);
       colaOrdenada[0].setCPU2(proceso.CPU2);
+
       colaOrdenada[0].setTiempoFinal(tiempo);
       colaOrdenada[0].setEnEjecucion(false);
       colaOrdenada[0].setFinalizado(true);

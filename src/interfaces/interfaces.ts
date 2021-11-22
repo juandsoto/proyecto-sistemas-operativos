@@ -2,8 +2,9 @@ import { Proceso } from '../models/Proceso';
 
 export type Cola = Proceso[];
 export interface Algoritmo {
-  penalizacion?: (cola: Cola) => boolean;
-  ejecutar: (procesosCongelados: any, cola: Cola, tiempo: number, colaES?: Cola) => void;
+  penalizacion?: (proceso: Proceso) => boolean;
+  recompensa?: (cola: Cola) => boolean;
+  ejecutar: (procesosCongelados: any, cola: Cola, tiempo: number, colaAux: Cola) => void;
 }
 export interface Input {
   eleccion: number;
