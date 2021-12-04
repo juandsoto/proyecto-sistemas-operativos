@@ -19,8 +19,8 @@ const ordenar = (procesos: Proceso[]): Proceso[] => {
   return procesos
     .map(proceso => proceso)
     .sort((a, b) => {
-      const aNumber = Number(a.nombre.substr(7, 1));
-      const bNumber = Number(b.nombre.substr(7, 1));
+      const aNumber = Number(a.nombre.substr(7, a.nombre.length - 7));
+      const bNumber = Number(b.nombre.substr(7, a.nombre.length - 7));
 
       return bNumber - aNumber;
     });
@@ -30,7 +30,7 @@ export const dataset = (tiempo: number, cola1: Cola, colaES: Cola, cola2: Cola, 
   const procesosOrdenados = ordenar(procesos);
 
   data.push({
-    label: 'Ejecucion',
+    label: ' ',
     data: procesosOrdenados.map(_ => 1),
     backgroundColor: procesosOrdenados.map(proceso => {
       if (tiempo < proceso.getLlegada() || proceso.isFinalizado()) {

@@ -52,7 +52,7 @@ export class FCFS implements Algoritmo {
       cola[0].setTiempoFinal(tiempo);
       cola[0].setEnEjecucion(false);
       cola[0].setFinalizado(true);
-      cola.shift(); //Saca el proceso de la cola
+      cola.shift();
       return;
     }
   }

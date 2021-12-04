@@ -28,8 +28,6 @@ async function main() {
 
   const ejecucionCola1 = () => {
     // Ejecucion de la cola1
-    // const colaOrdenada = cola1.sort((a, b) => a.getLlegada() - b.getLlegada()).sort((a, b) => b.getPrioridad() - a.getPrioridad());
-    // dataset(tiempo, colaOrdenada, colaES, cola2, procesos);
     algoritmoCola1.ejecutar(procesosCongelados, cola1, tiempo, colaES);
     if (cola2.length) {
       // Aumentamos el tiempo de espera de los procesos de la cola2 porque aún hay procesos en la cola1
@@ -65,7 +63,7 @@ async function main() {
           if (cola2.length) {
             colaNoApropiativa = cola2.slice();
           } else {
-            colaNoApropiativa = !cola2[0].isEnEjecucion()
+            colaNoApropiativa = !cola2.slice()[0]?.isEnEjecucion()
               ? cola2.slice().sort((a, b) => {
                   const aCongelado = procesosCongelados.find(pro => pro.nombre === a.nombre);
                   const bCongelado = procesosCongelados.find(pro => pro.nombre === b.nombre);
@@ -74,7 +72,7 @@ async function main() {
 
                   return aFormula - bFormula;
                 })
-              : cola2.slice();
+              : cola2;
           }
           break;
       }
@@ -105,17 +103,6 @@ async function main() {
 
 const inicializarProcesos = async (eleccion: number, numeroDeProcesos: number) => {
   let procesoIndex: number = 1;
-  // procesos.push(new Proceso('Proceso1', 2, 0, 4, 3, 3));
-  // procesos.push(new Proceso('Proceso2', 0, 0, 2, 2, 1));
-  // procesos.push(new Proceso('Proceso3', 2, 0, 4, 3, 2));
-  // procesos.push(new Proceso('Proceso4', 3, 1, 3, 3, 1));
-
-  // procesos.push(new Proceso('Proceso1', 3, 0, 3, 1, 1));
-  // procesos.push(new Proceso('Proceso2', 2, 2, 2, 1, 3));
-  // procesos.push(new Proceso('Proceso3', 0, 1, 1, 2, 2));
-  // procesos.push(new Proceso('Proceso4', 0, 0, 1, 3, 3));
-  // procesos.push(new Proceso('Proceso5', 1, 2, 4, 1, 1));
-  // procesos.push(new Proceso('Proceso6', 0, 2, 1, 2, 2));
   do {
     if (eleccion === 1) {
       proceso = new Proceso(`Proceso${procesoIndex}`);
@@ -163,17 +150,16 @@ const imprimirTabulacion = () => {
   );
   console.table(
     procesos.map((proceso: Proceso, index) => ({
-      'PROCESO': proceso.nombre,
+      PROCESO: proceso.nombre,
       'Instante de llegada': proceso.getLlegada(),
-      'Prioridad': proceso.getPrioridad(),
+      Prioridad: proceso.getPrioridad(),
       'Ráfaga de CPU1': proceso.getCPU1(),
       'Ráfaga de E/S': proceso.getES(),
       'Ráfaga de CPU2': proceso.getCPU2(),
-      'Tf': proceso.getTiempoFinal(),
+      Tf: proceso.getTiempoFinal(),
       'T(mínimo)': proceso.getTiempoServicio(),
       'E(mínimo)': proceso.getTiempoEspera(),
-      'I(máximo)': proceso.getIndiceServicio(),
-      'F': proceso.isFinalizado()
+      'I(máximo)': proceso.getIndiceServicio()
     }))
   );
   console.log(colors.green('========= PROMEDIOS ========='));
